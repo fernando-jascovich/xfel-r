@@ -10,19 +10,51 @@ local execute_contents = function(contents)
   print(result)
 end
 
-local Rexecute = function(opts)
-  local contents = { load_env }
-  for _, added in ipairs(script_before) do
-    table.insert(contents, added)
+local get_visual_selected = function()
+  local s_start = vim.fn.getpos("'<")
+  local s_end = vim.fn.getpos("'>")
+  local n_lines = math.abs(s_end[2] - s_start[2]) + 1
+  local lines = vim.api.nvim_buf_get_lines(0, s_start[2] - 1, s_end[2], false)
+  return lines
+end
+
+local get_input = function(opts)
+  local received_contents = {}
+  if next(opts.fargs) == nil then
+    received_contents = get_visual_selected()
+  else
+    received_contents = opts.fargs
   end
-  table.insert(contents, opts.fargs[1])
+  return received_contents
+end
+
+local append_tables = function(target, to_append)
+  for _, x in ipairs(to_append) do
+    table.insert(target, x)
+  end
+end
+
+local Rexecute = function(opts)
+  local received_contents = get_input(opts)
+  if next(received_contents) == nil then
+    print("No content, nothing to do.")
+    return
+  end
+
+  local contents = { load_env }
+  append_tables(contents, script_before)
+  append_tables(contents, received_contents)
   table.insert(contents, save_env)
   execute_contents(contents)
 end
 
+local RclearBefore = function() 
+  script_before = {} 
+end
+
 local Rclear = function() 
   vim.fn.system({ 'Rscript', '-e', save_env })
-  script_before = {} 
+  RclearBefore()
 end
 
 local Rmarkdown = function() 
@@ -35,7 +67,12 @@ local Rmarkdown = function()
 end
 
 local Radd = function(opts)
-  table.insert(script_before, opts.fargs[1])
+  local received_contents = get_input(opts)
+  if next(received_contents) == nil then
+    print("No content, nothing to do.")
+    return
+  end
+  append_tables(script_before, received_contents)
   print(table.concat(script_before, "\n"))
 end
 
@@ -44,10 +81,16 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
   callback = function()
     vim.api.nvim_create_user_command(
       'Rexecute', 
-      Rexecute, { nargs = 1 }
+      Rexecute, 
+      { range = true, nargs = "*" }
     )
     vim.api.nvim_create_user_command('Rclear', Rclear, {})
-    vim.api.nvim_create_user_command('Radd', Radd, { nargs = 1 })
+    vim.api.nvim_create_user_command('RclearBefore', RclearBefore, {})
+    vim.api.nvim_create_user_command(
+      'Radd', 
+      Radd, 
+      { range = true, nargs = "*" }
+    )
   end
 })
 
