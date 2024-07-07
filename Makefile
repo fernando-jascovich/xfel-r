@@ -12,3 +12,13 @@ build-pandoc: Dockerfile.pandoc
 .PHONY: build-rstudio
 build-rstudio: Dockerfile.rstudio
 	docker build -t xfel-r-rstudio -f Dockerfile.rstudio .
+
+install:
+	cp bin/R ~/.local/bin/R
+	cp bin/Rscript ~/.local/bin/Rscript
+	cp bin/rstudio ~/.local/bin/rstudio
+
+uninstall:
+	rm ~/.local/bin/R
+	rm ~/.local/bin/Rscript
+	rm ~/.local/bin/rstudio
