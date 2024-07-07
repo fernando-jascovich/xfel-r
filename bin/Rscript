@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+IMAGE_TAG=xfel-r-base
+U_ID=$(id -u)
+G_ID=$(id -g)
+
+docker run \
+  -v /tmp:/tmp \
+  -v "$PWD":/opt \
+  --user $U_ID:$G_ID \
+  -w /opt \
+  --rm \
+  $IMAGE_TAG Rscript $@
+
