@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+trap ctrl_c INT
+
+function ctrl_c() {
+  echo "ctrl_c!"
+  exit 0
+}
+
+sudo rstudio-server start
+while true; do
+  sleep 1
+done

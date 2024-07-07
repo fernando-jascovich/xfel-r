@@ -1,0 +1,11 @@
+FROM xfel-r-base
+
+# TeXLive
+RUN apt-get install -y texlive-latex-base texlive-latex-recommended texlive-latex-extra
+
+# Pandoc
+RUN wget https://github.com/jgm/pandoc/releases/download/3.2.1/pandoc-3.2.1-1-amd64.deb
+RUN gdebi -n pandoc-3.2.1-1-amd64.deb
+RUN rm pandoc-3.2.1-1-amd64.deb
+
+

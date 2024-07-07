@@ -1,0 +1,22 @@
+FROM xfel-r-pandoc
+
+# RStudio
+RUN wget https://download2.rstudio.org/server/jammy/amd64/rstudio-server-2024.04.1-748-amd64.deb
+RUN gdebi -n rstudio-server-2024.04.1-748-amd64.deb
+RUN rm rstudio-server-2024.04.1-748-amd64.deb
+EXPOSE 8787
+
+# RStudio user
+RUN useradd -s /bin/bash -m rstudio
+RUN echo "rstudio:pass" | chpasswd
+RUN echo 'rstudio ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+RUN mkdir -p /home/rstudio/.config/rstudio
+RUN chown -R rstudio:rstudio /home/rstudio/.config
+
+COPY ./start-server /usr/bin/start-server
+RUN chmod 755 /usr/bin/start-server
+
+USER rstudio
+WORKDIR /home/rstudio
+
+CMD ["/usr/bin/start-server"]
