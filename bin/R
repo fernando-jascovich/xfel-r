@@ -11,5 +11,5 @@ docker run \
   -w /opt \
   --rm \
   -it \
-  $IMAGE_TAG R --vanilla $@
+  $IMAGE_TAG R $@
 

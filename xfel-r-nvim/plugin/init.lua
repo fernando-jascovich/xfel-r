@@ -1,12 +1,12 @@
-local env_fname = '/tmp/env_file.Rdata'
-local load_env = 'load("' .. env_fname .. '")'
-local save_env = 'save.image("' .. env_fname .. '")'
-local script_before = {}
-
 local execute_contents = function(contents) 
   local script = vim.fn.tempname()
   vim.fn.writefile(contents, script)
-  local result = vim.fn.system({ 'Rscript', script })
+  local result = vim.fn.system({ 
+    'Rscript', 
+    '--save',
+    '--restore',
+    script 
+  })
   print(result)
 end
 
@@ -40,21 +40,17 @@ local Rexecute = function(opts)
     print("No content, nothing to do.")
     return
   end
-
-  local contents = { load_env }
-  append_tables(contents, script_before)
-  append_tables(contents, received_contents)
-  table.insert(contents, save_env)
-  execute_contents(contents)
-end
-
-local RclearBefore = function() 
-  script_before = {} 
+  execute_contents(received_contents)
 end
 
 local Rclear = function() 
-  vim.fn.system({ 'Rscript', '-e', save_env })
-  RclearBefore()
+  vim.fn.system({ 
+    'Rscript', 
+    '--restore',
+    '--save',
+    '-e', 
+    'rm(list=ls())' 
+  })
 end
 
 local Rmarkdown = function() 
@@ -66,16 +62,6 @@ local Rmarkdown = function()
   execute_contents(contents)
 end
 
-local Radd = function(opts)
-  local received_contents = get_input(opts)
-  if next(received_contents) == nil then
-    print("No content, nothing to do.")
-    return
-  end
-  append_tables(script_before, received_contents)
-  print(table.concat(script_before, "\n"))
-end
-
 vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
   pattern = { "*.R", "*.Rmd" },
   callback = function()
@@ -85,12 +71,6 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
       { range = true, nargs = "*" }
     )
     vim.api.nvim_create_user_command('Rclear', Rclear, {})
-    vim.api.nvim_create_user_command('RclearBefore', RclearBefore, {})
-    vim.api.nvim_create_user_command(
-      'Radd', 
-      Radd, 
-      { range = true, nargs = "*" }
-    )
   end
 })
 
