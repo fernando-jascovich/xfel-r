@@ -4,7 +4,8 @@ This repo has some software for using R.
 
 ## Environment
 
-Using docker this repository contains 3 docker images for working in R.q
+Using docker this repository contains 3 docker images for working in R. 
+All images have their correspondent build command in [Makefile](./Makefile).
 
 * base: base R lang installation and some libraries added (see [r-packages.R](./r-packages.R) and [r-packages-tidy.R](./r-packages-tidy.R))
 
