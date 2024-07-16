@@ -6,7 +6,7 @@ This repo has some software for using R.
 
 Using docker this repository contains 3 docker images for working in R.q
 
-* base: base R lang installation and some libraries added (see [r-packages.R](./r-packages.R) and [r-packages-tidy.R](./r-packages-tidy.R)
+* base: base R lang installation and some libraries added (see [r-packages.R](./r-packages.R) and [r-packages-tidy.R](./r-packages-tidy.R))
 
 * pandoc: this image adds to _base_ all required system dependencies to have pandoc and being able to export htmls and pdfs from Rmarkdown files.
 
@@ -21,3 +21,13 @@ All those scripts depends on a successful `make all` command. This means all doc
 ## nvim
 
 I wrote a simple nvim plugin to have some basic R execution right into nvim. Given that this plugin is using `Rscript` executable, it should work in any (dockerized or not) environment with `Rscript` available at path. 
+
+This nvim plugin offers the following commands:
+
+| Command     | Description                                                   | Shortcut    |
+| ---         | ---                                                           | ---         |
+| Rexecute    | It executes R code passed as arg or visually selected         | `<leader>R` |
+| RexecuteAll | It executes all code in current buffer                        |             |
+| Rclear      | It clears R environment and default libraries added           |             |
+| RaddLibrary | Adds a library (arg) as default library for future executions |             |
+| Rmarkdown   | It renders current rmarkdown file                             |             |
