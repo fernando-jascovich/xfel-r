@@ -1,6 +1,7 @@
 local util = require('xfel-r.util')
 
 local tempfiles = {}
+local libraries = {}
 
 local clear_tempfile = function(job_id)
   if tempfiles[job_id] then
@@ -31,6 +32,22 @@ local on_async_event = function(job_id, data, event)
   log(data)
 end
 
+local cmd = function(tempfile)
+  local cmd_table = ({ 
+    'Rscript', 
+    '--save',
+    '--restore',
+  })
+  if table.getn(libraries) > 0 then
+    table.insert(
+      cmd_table, 
+      '--default-packages=' .. table.concat(libraries, ',')
+    )
+  end
+  table.insert(cmd_table, tempfile)
+  return table.concat(cmd_table, ' ')
+end
+
 local execution = {}
 
 execution.execute_async = function(contents)
@@ -40,24 +57,24 @@ execution.execute_async = function(contents)
   log({ '----------------------------------------' })
   log(contents)
 
-  local cmd_table = ({ 
-    'Rscript', 
-    '--save',
-    '--restore',
-    tempfile
-  })
-  local cmd = table.concat(cmd_table, ' ')
   local opts = {
     on_stdout = on_async_event,
     on_stderr = on_async_event,
     on_exit = on_async_event,
     stdin = 'pipe'
   }
-  local job = vim.fn.jobstart(cmd, opts)
+  local job = vim.fn.jobstart(cmd(tempfile), opts)
+
   tempfiles[job] = tempfile
 end
 
+execution.add_library = function(library)
+  table.insert(libraries, library)
+  print(library .. ' added to next execution.')
+end
+
 execution.clear = function()
+  libraries = {}
   execution.execute_async({ 'rm(list=ls())' })
 end
 
