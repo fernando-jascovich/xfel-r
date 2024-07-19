@@ -30,7 +30,7 @@ userfns.markdown = function()
     'library(rmarkdown)',
     'rmarkdown::render("' .. fname .. '")'
   }
-  execute_contents(contents)
+  execution.execute_async(contents)
 end
 
 return userfns
