@@ -16,14 +16,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG="en_US.UTF-8"
 ENV LC_ALL=C.UTF-8
 
+# R libraries directory for user volume set
 RUN mkdir -p /usr/local/lib/R/site-library
 RUN chmod -R 777 /usr/local/lib/R/site-library
-
-COPY ./r-packages-tidy.R /tmp 
-RUN Rscript /tmp/r-packages-tidy.R
-
-COPY ./r-packages.R /tmp 
-RUN Rscript /tmp/r-packages.R
+VOLUME /usr/local/lib/R/site-library
 
 RUN apt autoremove
 RUN apt clean

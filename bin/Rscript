@@ -6,6 +6,7 @@ G_ID=$(id -g)
 
 docker run \
   -v /tmp:/tmp \
+	-v r_site_library:/usr/local/lib/R/site-library \
   -v "$PWD":/opt \
   --user $U_ID:$G_ID \
   -w /opt \

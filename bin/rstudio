@@ -4,6 +4,7 @@ IMAGE_TAG=xfel-r-rstudio
 
 docker run \
 	-v "$PWD":/home/rstudio/workspace \
+	-v r_site_library:/usr/local/lib/R/site-library \
 	-v rstudio_conf:/home/rstudio/.config/rstudio \
   -v rstudio_R:/home/rstudio/R \
 	--user rstudio:rstudio \
