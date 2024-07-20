@@ -1,7 +1,6 @@
 local util = require('xfel-r.util')
 
 local tempfiles = {}
-local libraries = {}
 
 local clear_tempfile = function(job_id)
   if tempfiles[job_id] then
@@ -38,12 +37,6 @@ local cmd = function(tempfile)
     '--save',
     '--restore',
   })
-  if table.getn(libraries) > 0 then
-    table.insert(
-      cmd_table, 
-      '--default-packages=' .. table.concat(libraries, ',')
-    )
-  end
   table.insert(cmd_table, tempfile)
   return table.concat(cmd_table, ' ')
 end
@@ -68,13 +61,7 @@ execution.execute_async = function(contents)
   tempfiles[job] = tempfile
 end
 
-execution.add_library = function(library)
-  table.insert(libraries, library)
-  print(library .. ' added to next execution.')
-end
-
 execution.clear = function()
-  libraries = {}
   execution.execute_async({ 'rm(list=ls())' })
 end
 

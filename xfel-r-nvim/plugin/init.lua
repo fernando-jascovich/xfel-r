@@ -10,9 +10,6 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
     )
     vim.api.nvim_create_user_command('RexecuteAll', userfns.execute_all, {})
     vim.api.nvim_create_user_command('Rclear', userfns.clear, {})
-    vim.api.nvim_create_user_command(
-      'RaddLibrary', userfns.add_library, { nargs = 1 }
-    )
     vim.api.nvim_set_keymap(
       'n', 
       '<leader>R',

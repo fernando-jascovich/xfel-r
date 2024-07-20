@@ -20,10 +20,6 @@ userfns.clear = function()
   execution.clear()
 end
 
-userfns.add_library = function(opts)
-  execution.add_library(opts.fargs[1])
-end
-
 userfns.markdown = function() 
   local fname = vim.fn.expand("%")
   local contents = {
