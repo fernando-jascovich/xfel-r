@@ -21,5 +21,11 @@ RUN mkdir -p /usr/local/lib/R/site-library
 RUN chmod -R 777 /usr/local/lib/R/site-library
 VOLUME /usr/local/lib/R/site-library
 
+# Add rust needed by some R packages
+ENV RUSTUP_HOME=/usr/local/rustup
+ENV CARGO_HOME=/usr/local/cargo
+ENV PATH=/usr/local/cargo/bin:$PATH
+RUN wget -q -O - https://sh.rustup.rs | bash -s -- -y
+
 RUN apt autoremove
 RUN apt clean
