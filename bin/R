@@ -10,6 +10,7 @@ docker run \
   -v "$PWD":/opt \
   --user $U_ID:$G_ID \
   -w /opt \
+  -p 3477:3477 \
   --rm \
   -it \
   $IMAGE_TAG R $@

@@ -24,5 +24,6 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
   callback = function()
     local userfns = require('xfel-r.userfns')
     vim.api.nvim_create_user_command('Rmarkdown', userfns.markdown, {})
+    vim.api.nvim_create_user_command('RmarkdownRun', userfns.markdown_run, {})
   end
 })

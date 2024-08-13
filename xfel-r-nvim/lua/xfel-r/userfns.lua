@@ -29,4 +29,14 @@ userfns.markdown = function()
   execution.execute_async(contents)
 end
 
+userfns.markdown_run = function()
+  local fname = vim.fn.expand("%")
+  local shiny_args = 'list(host = "0.0.0.0", port = 3477)'
+  local contents = {
+    'library(rmarkdown)',
+    'rmarkdown::run("' .. fname .. '", shiny_args = ' .. shiny_args .. ')'
+  }
+  execution.execute_async(contents)
+end
+
 return userfns
