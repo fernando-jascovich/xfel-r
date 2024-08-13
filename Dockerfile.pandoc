@@ -1,4 +1,4 @@
-FROM xfel-r-base
+FROM fernandojascovich/xfel-r:base
 
 RUN apt update
 

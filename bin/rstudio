@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGE_TAG=xfel-r-rstudio
+IMAGE_TAG=fernandojascovich/xfel-r:rstudio
 
 docker run \
 	-v "$PWD":/home/rstudio/workspace \

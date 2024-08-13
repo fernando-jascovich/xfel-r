@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-IMAGE_TAG=xfel-r-pandoc
+IMAGE_TAG=fernandojascovich/xfel-r:pandoc
 U_ID=$(id -u)
 G_ID=$(id -g)
 
