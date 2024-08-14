@@ -9,7 +9,6 @@ docker run \
 	-v r_site_library:/usr/local/lib/R/site-library \
   -v "$PWD":/opt \
   --user $U_ID:$G_ID \
-  -p 3477:3477 \
   -w /opt \
   --rm \
   $IMAGE_TAG Rscript $@
