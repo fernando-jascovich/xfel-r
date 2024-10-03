@@ -3,6 +3,7 @@
 IMAGE_TAG=fernandojascovich/xfel-r:rstudio
 
 docker run \
+  -v /tmp:/tmp \
 	-v "$PWD":/home/rstudio/workspace \
 	-v r_site_library:/usr/local/lib/R/site-library \
 	-v rstudio_conf:/home/rstudio/.config/rstudio \
