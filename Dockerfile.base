@@ -3,7 +3,7 @@ FROM ubuntu:24.04
 RUN apt update
 
 # Required dependencies
-RUN apt install --no-install-recommends -y software-properties-common dirmngr wget language-pack-es language-pack-en libcurl4-openssl-dev libssl-dev libxml2-dev libcairo2-dev libgit2-dev default-libmysqlclient-dev libpq-dev libsasl2-dev libsqlite3-dev libssh2-1-dev libxtst6 libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev unixodbc-dev build-essential gfortran libudunits2-dev libgdal-dev gdebi-core
+RUN apt install --no-install-recommends -y software-properties-common dirmngr wget language-pack-es language-pack-en libcurl4-openssl-dev libssl-dev libxml2-dev libcairo2-dev libgit2-dev default-libmysqlclient-dev libpq-dev libsasl2-dev libsqlite3-dev libssh2-1-dev libxtst6 libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev unixodbc-dev build-essential gfortran libudunits2-dev libgdal-dev gdebi-core libgsl-dev
 
 # R
 RUN wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
