@@ -13,6 +13,9 @@ RUN echo 'rstudio ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 RUN mkdir -p /home/rstudio/.config/rstudio
 RUN chown -R rstudio:rstudio /home/rstudio/.config
 
+# Git for VC
+RUN apt install --no-install-recommends -y git
+
 COPY ./start-server /usr/bin/start-server
 RUN chmod 755 /usr/bin/start-server
 
